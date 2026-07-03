@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic Skincare - Premium Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Style+Script&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --transition-speed: 0.8s;
+            --progress-duration: 5000ms; /* 5 seconds per slide */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #0d0d0d;
+        }
+
+        .font-logo {
+            font-family: 'Style Script', cursive;
+            font-size: 3rem;
+            line-height: 1;
+        }
+
+        .font-serif-italic {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+        }
+
+        /* Video and Background Transitions */
+        .bg-slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+        }
+
+        .bg-slide.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Seamless background video */
+        .bg-video-container {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity var(--transition-speed) ease-in-out;
+        }
+
+        .bg-video-container.active {
+            opacity: 1;
+        }
+
+        /* Dark premium overlay gradient to guarantee text readability */
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, rgba(67, 65, 65, 0.65) 0%, rgba(0, 0, 0, 0.65) 0%, rgba(0,0,0,0.1) 100%),
+                        linear-gradient(to bottom, rgba(67,65,65,0.65) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0.5) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Mega Menu Dropdown animation */
+        .mega-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(12px);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .group-catalog:hover .mega-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Hero text animation transition */
+        .hero-content {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .hero-content.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-divider {
+    position: absolute;
+    top: 80px;      /* Adjust as needed */
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.15);
+    z-index: 10;
+}
+
+        /* SVG Circle progress logic */
+        .thumb-ring circle.progress {
+            stroke-dasharray: 150.8; /* 2 * pi * r (r=24) */
+            stroke-dashoffset: 150.8;
+            transition: stroke-dashoffset 0.1s linear;
+        }
+
+        .thumbnail img{
+            width:100%;
+            height:100%;
+            object-fit: cover;
+            opacity:0.35;
+           filter:grayscale(100%)brightness(60%);
+            transition: all 0.4s ease;
+        }
+
+        .active .thumbnail img{
+            opacity:1;
+            filter:grayscale(0%)brightness(100%);
+        }
+
+        /* Interactive Drawer Components */
+        .drawer {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .drawer.open {
+            transform: translateX(0);
+        }
+
+        .search-drawer {
+            transform: translateY(-100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .search-drawer.open {
+            transform: translateY(0);
+        }
+
+        /* Elegant custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+<body class="text-white antialiased overflow-hidden select-none">
+
+    <div id="app" class="relative w-full h-screen flex flex-col justify-between overflow-hidden">
+        
+        <!-- Slide 0: Video Background (magic.mp4) -->
+        <div id="slide-media-0" class="bg-video-container active">
+            <video id="bg-video" autoplay muted loop playsinline class="w-full h-full object-cover">
+                <source src="images/magicviddeo.mp4" type="video/mp4">
+                <!-- High quality static fallback if video fails to render -->
+                <img src="images/image2.jpeg " class="w-full h-full object-cover" alt="Fallback" type="image/png">
+            </video>
+        </div>
+
+        <!-- Slide 1: Image Background -->
+        <div id="slide-media-1" class="bg-slide" style="background-image: url('images/image1.jpeg');">
+            <video id="bg-video" autoplay muted loop playsinline class="w-full h-full object-cover">
+                <source src="images/magicvideo2.mp4" type="video/mp4">
+                <!-- High quality static fallback if video fails to render -->
+                <img src="images/image1.jpeg" class="w-full h-full object-cover" alt="Fallback">
+            </video>
+        </div>
+        
+        <!-- Ambient Overlay Gradients -->
+        <div class="overlay"></div>
+
+        <!-- Top Navigation Bar -->
+        <header class="relative z-50 w-full px-8 md:px-12 py-6 flex justify-between items-center bg-transparent">
+            
+            <!-- Left Side: Main Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-xs tracking-widest font-light uppercase text-gray-200">
+                <a href="#" class="hover:text-white transition-colors duration-300">Home</a>
+                
+                <!-- Catalog Dropdown wrapper -->
+                <div class="group-catalog relative py-4">
+                    <a href="#" class="flex items-center gap-1.5 hover:text-white transition-colors duration-300 cursor-pointer">
+                        Catalog 
+                        <svg class="w-3 h-3 transition-transform duration-300 group-catalog:hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </a>
+                    
+                    <!-- Mega Menu Dropdown Container -->
+                    <div class="mega-menu absolute top-[100%] left-[-20px] bg-white text-black w-[920px] shadow-2xl rounded-xl flex overflow-hidden p-6 gap-6">
+                        <!-- Left Side: Promo Double Cards -->
+                        <div class="w-1/2 grid grid-cols-2 gap-4">
+                            <!-- Card 1: Beauty Promo -->
+                            <div class="relative rounded-lg overflow-hidden group/promo h-72">
+                                <img src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?q=80&w=800&auto=format&fit=crop" alt="Promo Skincare" class="w-full h-full object-cover transition-transform duration-700 group-hover/promo:scale-110">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent flex flex-col justify-end p-4 text-white">
+                                    <span class="text-[10px] uppercase tracking-widest text-gray-300 mb-1">Pure Magic</span>
+                                    <h3 class="font-bold text-base mb-1">Skincare & Beauty!</h3>
+                                    <p class="text-xs text-gray-200">Up to 50% Off on Skincare & Beauty!</p>
+                                    <a href="#" class="inline-flex items-center gap-1.5 text-xs font-semibold mt-3 text-white hover:underline">
+                                        Shop Promo 
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                    </a>
+                                </div>
+                            </div> 
+                            
+                            <!-- Card 2: Hydration Promo -->
+                            <div class="relative rounded-lg overflow-hidden group/promo h-72">
+                                <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=800&auto=format&fit=crop" alt="Hydration Special" class="w-full h-full object-cover transition-transform duration-700 group-hover/promo:scale-110">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent flex flex-col justify-end p-4 text-white">
+                                    <span class="text-[10px] uppercase tracking-widest text-gray-300 mb-1">Best Seller</span>
+                                    <h3 class="font-bold text-base mb-1">Hydration Haven</h3>
+                                    <p class="text-xs text-gray-200">Special Discounts on Skincare Must-Haves!</p>
+                                    <a href="#" class="inline-flex items-center gap-1.5 text-xs font-semibold mt-3 text-white hover:underline">
+                                        Explore Now 
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Side: Navigation Product Categories -->
+                        <div class="w-1/2 grid grid-cols-3 gap-4 p-2">
+                            <div>
+                                <h4 class="font-bold text-xs uppercase tracking-widest text-gray-900 border-b border-gray-100 pb-2 mb-3">Glow On Facials</h4>
+                                <ul class="space-y-2.5 text-xs text-gray-600 font-medium">
+                                    <li><a href="#" class="hover:text-black transition-colors duration-200 block">Night Cream</a></li>
+                                    <li><a href="#" class="hover:text-black transition-colors duration-200 block">Glow Serum</a></li>
+                                    <li><a href="#" class="hover:text-black transition-colors duration-200 block">Floral Fragrance</a></li>
+                                    <li><a href="#" class="hover:text-black transition-colors duration-200 block">Divine Perfume</a></li>
+                                    <li><a href="#" class="hover:text-black transition-colors duration-200 block">Nourish Cream</a></li>
+                                    <li><a href="#" class="hover:text-black transition-colors duration-200 block text-neutral-400">Cleansing Gel</a></li>
+                                    <li><a href="#" class="hover:text-black transition-colors duration-200 block text-neutral-400">Repair Serum</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xs uppercase tracking-widest text-gray-900 border-b border-gray-100 pb-2 mb-3">Hydration</h4>
+                                <ul class="space-y-2.5 text-xs text-gray-600 font-medium">
+                                    <li><a href="#" class="hover:text-black transition-colors duration-200 block">Vitamin C Cream</a></li>
+                                    <li><a href="#" class="hover:text-black transition-colors duration-200 block">Repair Moisturizer</a></li>
+                                    <li><a href="#" class="hover:text-black transition-colors duration-200 block">Silk Foundation</a></li>
+                                    <li><a href="#" class="hover:text-black transition-colors duration-200 block text-neutral-400">Body Lotion</a></li>
+                                    <li><a href="#" class="hover:text-black transition-colors duration-200 block text-neutral-400">Keratin Shampoo</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xs uppercase tracking-widest text-gray-900 border-b border-gray-100 pb-2 mb-3">Shimmer</h4>
+                                <ul class="space-y-2.5 text-xs text-gray-600 font-medium">
+                                    <li><a href="#" class="hover:text-black transition-colors duration-200 block">Silk Foundation</a></li>
+                                    <li><a href="#" class="hover:text-black transition-colors duration-200 block">Body Lotion</a></li>
+                                    <li><a href="#" class="hover:text-black transition-colors duration-200 block">Keratin Shampoo</a></li>
+                                    <li><a href="#" class="hover:text-black transition-colors duration-200 block">Night Cream</a></li>
+                                    <li><a href="#" class="hover:text-black transition-colors duration-200 block">Glow Serum</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="#" class="hover:text-white transition-colors duration-300">Contact</a>
+                <a href="#" class="hover:text-white transition-colors duration-300">About Us</a>
+                <a href="#" class="hover:text-white transition-colors duration-300">FAQ</a>
+            </nav>
+
+            <!-- Center Logo: "Magic" -->
+            <div class="absolute left-1/2 transform -translate-x-1/2 z-50">
+                <a href="#" class="font-logo text-white tracking-wide hover:opacity-90 transition-opacity">Magic</a>
+            </div>
+
+            <!-- Right Side Utility Icons -->
+            <div class="flex items-center gap-4 absolute right-12 top-6 z-50">
+                <!-- Search Button -->
+                <button onclick="toggleSearch()" class="text-gray-200 hover:text-white transition-colors duration-300 p-1">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </button>
+                <!-- User Account -->
+                <button class="text-gray-200 hover:text-white transition-colors duration-300 p-1 hidden sm:block">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                </button>
+                <!-- Cart Trigger Button -->
+                <button onclick="toggleCart()" class="text-gray-200 hover:text-white transition-colors duration-300 p-1 relative">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                    </svg>
+                    <span id="cart-counter" class="absolute -top-1 -right-1 bg-white text-black text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-md">2</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Hero Landing Content -->
+        <main class="relative z-40 flex-grow flex items-end pb-24 px-8 md:px-16">
+            <div id="text-container" class="hero-content show max-w-2xl select-none">
+                <h2 class="text-[2.5rem] md:text-[3rem] leading-[1.1] font-medium tracking-tight">
+                    <span id="title-part-1">Glow Naturally with Skincare</span><br>
+                    <span id="title-part-2">That's <span class="font-serif-italic font-normal">Gentle, Clean, & Effective</span></span>
+                </h2>
+                <p id="desc" class="text-gray-300 mt-5 mb-8 text-sm md:text-[0.95rem] max-w-md leading-relaxed font-light">
+                    Thoughtfully formulated to nourish your skin with safe and healthy complexion every day.
+                </p>
+                
+                <div class="flex items-center gap-2">
+
+    <!-- Arrow Button -->
+    <button class="w-14 h-14 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/>
+        </svg>
+    </button>
+
+    <!-- Shop Now Button -->
+    <button onclick="toggleCart()" class="bg-white text-black px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition">
+        Shop Now
+    </button>
+
+</div>
+            </div>
+        </main>
+
+        <div class="hero-divider"></div>
+
+        <!-- Bottom Controls and Navigation Thumbnails -->
+        <aside class="absolute bottom-12 right-8 md:right-16 z-40 flex gap-5 items-center">
+            
+            <!-- Thumbnail Carousel Control 0 -->
+            <div class="relative w-24 h-24 cursor-pointer rounded-full group" onclick="switchSlide(0)">
+                <!-- Circular SVG Progress Ring -->
+                <svg class="thumb-ring absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 52 52">
+                    <circle cx="26" cy="26" r="24" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+                    <circle id="ring-progress-0" class="progress" cx="26" cy="26" r="24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <!-- Thumbnail Image Layer -->
+                <div class="absolute inset-[10px] rounded-full overflow-hidden border border-white/20 group-hover:border-white/80 transition-colors duration-300">
+                    <img src="images/image2.png" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" alt="Thumb 0" alt="thumb">
+                </div>
+            </div>
+
+            <!-- Thumbnail Carousel Control 1 -->
+            <div class="relative w-24 h-24 cursor-pointer rounded-full group" onclick="switchSlide(1)">
+                <!-- Circular SVG Progress Ring -->
+                <svg class="thumb-ring absolute inset-0 w-full h-full -rotate-90 pointer-events-none" viewBox="0 0 52 52">
+                    <circle cx="26" cy="26" r="24" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+                    <circle id="ring-progress-1" class="progress" cx="26" cy="26" r="24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <!-- Thumbnail Image Layer -->
+                <div class="absolute inset-[10px] rounded-full overflow-hidden border border-white/20 group-hover:border-white/80 transition-colors duration-300">
+                    <img src="images/image1.png" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" alt="Thumb 1" alt="thumb">
+                </div>
+            </div>
+            
+        </aside>
+
+        <!-- Slide-out Shopping Cart Drawer -->
+        <div id="cart-drawer" class="drawer fixed top-0 right-0 h-full w-full max-w-md bg-neutral-950 border-l border-neutral-800/60 shadow-2xl z-50 flex flex-col justify-between p-6">
+            <div>
+                <!-- Drawer Header -->
+                <div class="flex justify-between items-center border-b border-neutral-800 pb-4 mb-6">
+                    <h3 class="text-lg font-bold tracking-widest uppercase">Shopping Bag (2)</h3>
+                    <button onclick="toggleCart()" class="text-neutral-400 hover:text-white transition-colors p-1">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Product Items Inside Cart -->
+                <div class="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
+                    <!-- Item 1 -->
+                    <div class="flex gap-4 bg-neutral-900/50 p-3 rounded-lg border border-neutral-800/40">
+                        <img src="https://images.unsplash.com/photo-1608248597481-496100c8c836?q=80&w=100&auto=format&fit=crop" class="w-16 h-16 object-cover rounded-md" alt="Glow Serum">
+                        <div class="flex-grow">
+                            <h4 class="font-semibold text-xs tracking-wider">Magic Glow Serum</h4>
+                            <p class="text-[10px] text-neutral-400 mt-0.5">Size: 50ml</p>
+                            <div class="flex justify-between items-center mt-2">
+                                <span class="text-xs text-neutral-300">$48.00</span>
+                                <div class="flex items-center border border-neutral-800 rounded bg-black text-[11px]">
+                                    <button class="px-2.5 py-1 text-neutral-400 hover:text-white">-</button>
+                                    <span class="px-1.5 font-bold">1</span>
+                                    <button class="px-2.5 py-1 text-neutral-400 hover:text-white">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="flex gap-4 bg-neutral-900/50 p-3 rounded-lg border border-neutral-800/40">
+                        <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=100&auto=format&fit=crop" class="w-16 h-16 object-cover rounded-md" alt="Night Cream">
+                        <div class="flex-grow">
+                            <h4 class="font-semibold text-xs tracking-wider">Hydration Night Cream</h4>
+                            <p class="text-[10px] text-neutral-400 mt-0.5">Size: 100ml</p>
+                            <div class="flex justify-between items-center mt-2">
+                                <span class="text-xs text-neutral-300">$62.00</span>
+                                <div class="flex items-center border border-neutral-800 rounded bg-black text-[11px]">
+                                    <button class="px-2.5 py-1 text-neutral-400 hover:text-white">-</button>
+                                    <span class="px-1.5 font-bold">1</span>
+                                    <button class="px-2.5 py-1 text-neutral-400 hover:text-white">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cart Footer Summary -->
+            <div class="border-t border-neutral-800 pt-4">
+                <div class="flex justify-between text-xs uppercase tracking-widest text-neutral-300 mb-2">
+                    <span>Subtotal</span>
+                    <span class="font-semibold text-white">$110.00</span>
+                </div>
+                <p class="text-[10px] text-neutral-400 mb-4">Tax & worldwide shipping calculated at checkout.</p>
+                <button class="w-full bg-white text-black font-semibold uppercase text-xs py-3.5 rounded-lg tracking-wider transition-colors duration-300 hover:bg-neutral-200">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+
+        <!-- Drop-down Full-Width Search Bar -->
+        <div id="search-drawer" class="search-drawer fixed top-0 left-0 w-full bg-neutral-950/95 border-b border-neutral-800 z-50 p-6 shadow-2xl">
+            <div class="max-w-4xl mx-auto flex items-center justify-between">
+                <div class="flex-grow flex items-center gap-3">
+                    <svg class="w-5.5 h-5.5 text-neutral-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <input type="text" placeholder="Search magical skincare formulas..." class="w-full bg-transparent border-none text-white text-base focus:ring-0 placeholder-neutral-500 font-light py-2">
+                </div>
+                <button onclick="toggleSearch()" class="text-neutral-400 hover:text-white transition-colors pl-4">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Dimming Background Overlay for active panels -->
+        <div id="modal-dim-overlay" onclick="closeAllDrawers()" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 hidden transition-opacity duration-300"></div>
+
+    </div>
+
+    <script>
+        const slidesData = [
+            {
+                title1: "Glow Naturally with Skincare",
+                title2: "That's <span class='font-serif-italic font-normal'>Gentle, Clean, & Effective</span>",
+                desc: "Thoughtfully formulated to nourish your skin with safe and healthy complexion every day."
+            },
+            {
+                title1: "Hydrating Skincare Essentials",
+                title2: "for Every <span class='font-serif-italic font-normal'>Skin Type</span>",
+                desc: "Gentle yet effective formulas designed to deeply nourish, repair all skin types for a healthy, radiant glow."
+            }
+        ];
+
+        let currentIndex = 0;
+        let slideTimer = null;
+        const duration = 5000; // 5 seconds per slide
+        let startTimestamp = null;
+        let progressAnimationId = null;
+
+        // Custom slide selection method
+        function switchSlide(index) {
+            if (index === currentIndex && progressAnimationId) return;
+
+            // Stop animations & clean state
+            cancelAnimationFrame(progressAnimationId);
+            clearTimeout(slideTimer);
+
+            const prevIndex = currentIndex;
+            currentIndex = index;
+
+            // Transition Background Slides
+            const slide0 = document.getElementById('slide-media-0');
+            const slide1 = document.getElementById('slide-media-1');
+
+            if (currentIndex === 0) {
+                slide0.classList.add('active');
+                slide1.classList.remove('active');
+                
+                // Play video from start when active
+                const video = document.getElementById('bg-video');
+                if (video) {
+                    video.currentTime = 0;
+                    video.play().catch(() => {});
+                }
+            } else {
+                slide1.classList.add('active');
+                slide0.classList.remove('active');
+            }
+
+            // Animate Text Fades
+            const textContainer = document.getElementById('text-container');
+            textContainer.classList.remove('show');
+
+            setTimeout(() => {
+                const data = slidesData[currentIndex];
+                document.getElementById('title-part-1').innerHTML = data.title1;
+                document.getElementById('title-part-2').innerHTML = data.title2;
+                document.getElementById('desc').innerHTML = data.desc;
+
+                requestAnimationFrame(() => {
+                    textContainer.classList.add('show');
+                });
+            }, 400);
+
+            // Restart progress bar calculations
+            resetAndStartProgressBar();
+        }
+
+        // Animating custom circular loader
+        function resetAndStartProgressBar() {
+            startTimestamp = performance.now();
+            animateProgress();
+        }
+
+        function animateProgress() {
+            const now = performance.now();
+            const elapsed = now - startTimestamp;
+            const percentage = Math.min(elapsed / duration, 1);
+
+            // Calculate Dash offsets (Max length is 150.8)
+            const strokeOffset = 150.8 - (150.8 * percentage);
+
+            const activeRing = document.getElementById(`ring-progress-${currentIndex}`);
+            const inactiveRing = document.getElementById(`ring-progress-${(currentIndex + 1) % 2}`);
+
+            if (activeRing) {
+                activeRing.style.strokeDashoffset = strokeOffset;
+            }
+            if (inactiveRing) {
+                inactiveRing.style.strokeDashoffset = 150.8;
+            }
+
+            if (percentage < 1) {
+                progressAnimationId = requestAnimationFrame(animateProgress);
+            } else {
+                // Progress finished, advance slide automatically
+                const nextSlide = (currentIndex + 1) % slidesData.length;
+                switchSlide(nextSlide);
+            }
+        }
+
+        // Side drawer controls
+        function toggleCart() {
+            const drawer = document.getElementById('cart-drawer');
+            const overlay = document.getElementById('modal-dim-overlay');
+            drawer.classList.toggle('open');
+            if (drawer.classList.contains('open')) {
+                overlay.classList.remove('hidden');
+            } else {
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function toggleSearch() {
+            const drawer = document.getElementById('search-drawer');
+            const overlay = document.getElementById('modal-dim-overlay');
+            drawer.classList.toggle('open');
+            if (drawer.classList.contains('open')) {
+                overlay.classList.remove('hidden');
+            } else {
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function closeAllDrawers() {
+            document.getElementById('cart-drawer').classList.remove('open');
+            document.getElementById('search-drawer').classList.remove('open');
+            document.getElementById('modal-dim-overlay').classList.add('hidden');
+        }
+
+        
+
+        // Initialize state on window load
+        window.onload = () => {
+            // Attempt autoplay for video background
+            const video = document.getElementById('bg-video');
+            if (video) {
+                video.play().catch(e => {
+                    console.log("Autoplay blocked: user interaction required.");
+                });
+            }
+            resetAndStartProgressBar();
+        };
+    </script>
+</body>
+</html>
