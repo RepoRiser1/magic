@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic - Skincare & Beauty</title>
+    
+    <!-- Importing Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- GSAP & ScrollTrigger CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* CSS RESET & BASE STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            background-color: #fbfbfb;
+            overflow-x: hidden;
+        }
+
+        /* NAVBAR STYLES */
+        .navbar {
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 2rem;
+            position: sticky;
+            top: -20px;
+            z-index: 100;
+        }
+
+        .nav-left {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.85rem;
+            flex: 1;
+        }
+
+        .nav-left a {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: opacity 0.3s;
+        }
+
+        .nav-left a:hover {
+            opacity: 0.7;
+        }
+
+        .logo {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8rem;
+            letter-spacing: 2px;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: flex-end;
+            align-items: center;
+            flex: 1;
+        }
+
+        .nav-right svg {
+            width: 22px;
+            height: 22px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.5;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .nav-right svg:hover {
+            opacity: 0.7;
+        }
+
+        /* TOP HERO BANNER */
+        .top-banner{
+    width:100%;
+    height:40vh;          /* 70vh இருந்தா 78vh ஆக்கு */
+    background:url("images/faq.jpeg") center center/cover no-repeat;
+    position:relative;
+}
+
+.banner-overlay{
+    position:absolute;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,.55);
+}
+
+.banner-title{
+    font-family:'Inter',sans-serif;
+    font-size:3.5rem;     /* 3rem இல்லை */
+    font-weight:350;      /* 200 இல்லை */
+    letter-spacing:2px;
+    color:#f6f4ef;
+    text-transform:uppercase;
+    line-height:1.15;
+    text-align:center;
+
+    position:relative;
+    top:20px;             /* கீழே கொண்டு வரும் */
+}
+
+
+        /* ANIMATED HERO TEXT SECTION */
+        .hero-text-section {
+            max-width: 10500px;
+            margin:2rem auto 6rem auto;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .hero-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 3.0rem;
+            font-weight: 400;
+            line-height: 1.0;
+            color: #e0e0e0; /* Starting light color */
+        }
+
+        /* Inline Pill Images */
+        .inline-pill {
+            display: inline-block;
+            width: 150px;
+            height: 60px;
+            border-radius: 40px;
+            object-fit: cover;
+            vertical-align: middle;
+            margin: 0 0.8rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            opacity: 0.4; /* Starting opacity for GSAP */
+        }
+
+        /* FEATURE SECTIONS */
+        .feature-section {
+            max-width: 1200px;
+            margin: 0 auto 6rem auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 6rem;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            position: relative;
+        }
+        .feature-section:not(:first-of-type) {
+    box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.06);
+}
+
+        .feature-image-wrapper {
+            flex: 1;
+        }
+
+        .feature-image-wrapper img {
+            width: 100%;
+            height: auto;
+            border-radius: 30px;
+            object-fit: cover;
+            display: block;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .feature-content {
+            flex: 1;
+        }
+
+        .feature-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 450;
+            line-height: 1.2;
+            color: #222;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .feature-content p {
+            font-size: 0.85rem;
+            color: #555;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        /* PAGINATION DOTS */
+        .carousel-dots {
+            display: flex;
+            gap: 10px;
+            margin-top: 1.5rem;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #d3d3d3;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: #111;
+        }
+
+        /* GLOW UP SECTION HEADER */
+        .glow-up-header {
+            max-width: 1200px;
+            margin: 0 auto 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .glow-up-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 400;
+            color: #222;
+            text-transform: uppercase;
+        }
+
+        /* BACK TO TOP BUTTON */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: #fff;
+            color: #000;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, background-color 0.3s, border-color 0.3s;
+            z-index: 99;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            border-color: #000;
+        }
+
+        /* Video section-ai screen full height-il lock seiya */
+/* Video container wrapper-ai screen full views height-il lock seiya */
+.video-hero-section {
+    position: relative !important;
+    width: 100% !important;
+    height: 100vh !important;       /* Screen heights core profile system grid fill */
+    min-height: 100vh !important;
+    overflow: hidden !important;
+    display: block !important;
+    background-color: #000000 !important;
+}
+
+/* Video sheet structure cover positioning override background alignment */
+.video-hero-section video {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;  /* Video stretch dynamic break thadukka */
+    z-index: 1 !important;
+}
+
+/* Text layer dynamic box position element flow force */
+.video-hero-section .absolute-text-box {
+    position: absolute !important;
+    top: 100px !important;         /* Navbar boundaries layer clear seidhu top-il nirkum */
+    left: 40px !important;          /* Left line margins block dynamic align */
+    z-index: 10 !important;         /* Video overlay-uku mela force position marker */
+    max-width: 600px !important;
+}
+
+/* Pure White Text Elements color layout */
+.dynamic-glow-title, .dynamic-glow-text {
+    color: #ffffff !important;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5) !important; /* Visual visibility boost mapping */
+}
+
+
+/* Container aspect ratios and height constraints */
+.images-overlap-wrapper {
+    height: 550px; /* Desktop-il layout frame height */
+    display: block;
+}
+
+/* Base image card layout profiles */
+/* Section flow control layout profiles */
+.block-layout-clear {
+    display: block !important;
+    position: relative !important;
+    clear: both !important;
+    float: none !important;
+    z-index: 50 !important; /* Mela ulla sections-ai thandi layout split aagavaikka */
+}
+
+/* Images wrapper structural flow mapping box */
+.images-overlap-wrapper {
+    position: relative !important; /* Idhu dhaan images mela pogaamal ingae anchor panni vaikkum */
+    width: 100% !important;
+    height: 580px !important; /* Explicit section grid bounding constraint height */
+    margin-top: 40px !important;
+    display: block !important;
+    background-color: #ffffff !important; /* Section background color */
+    margin:0 auto;
+    max-width:1200px;
+}
+
+/* Image card position styles definitions setup */
+.overlap-card {
+    position: absolute !important;
+    overflow: hidden !important;
+    border-radius: 24px !important;
+    background-color: #f5f5f5;
+    transition: transform 0.4s ease, top 0.4s ease, left 0.4s ease, width 0.4s ease, height 0.4s ease;
+}
+
+.overlap-card img{
+    width:100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-left {
+            left: 5%;        /* Horizontal Position from Left */
+            top: 10%;        /* Vertical Position from Top */
+            width: 30%;      /* Size: Width relative to parent */
+            height: 70%;     /* Size: Height relative to parent */
+            z-index: 10;     /* Stacking order */
+            /* transform: rotate(-5deg); */ /* Optional: Adds slight tilt */
+        }
+
+        /* 2. CENTER CARD POSITIONING (Typically overlapping) */
+        .card-center {
+            left: 50%;       /* Center Horizontally */
+            top: 60%;        /* Center Vertically */
+            transform: translate(-50%, -50%); /* Crucial for actual centering */
+            width: 35%;      /* Size: Width relative to parent */
+            height: 80%;     /* Size: Height relative to parent */
+            z-index: 20;     /* Higher index means it goes ON TOP */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Standout shadow */
+        }
+
+        /* 3. RIGHT CARD POSITIONING */
+        .card-right {
+            right: 3%;       /* Horizontal Position from Right */
+            top: 40%;        /* Vertical Position from Top */
+            width: 30%;      /* Size: Width relative to parent */
+            height: 70%;     /* Size: Height relative to parent */
+            z-index: 10;     /* Same as card-left */
+            /* transform: rotate(5deg); */ /* Optional: Adds slight tilt */
+        }
+
+        .text-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 40px;
+            color: #333;
+            z-index: 5;
+        }
+
+/* Responsive constraints for mobile screens */
+@media (max-width: 768px) {
+    .images-overlap-wrapper {
+        height: 380px;
+    }
+    .card-left { width: 35%; height: 75%; }
+    .card-center { width: 40%; height: 85%; }
+    .card-right { width: 42%; height: 75%; }
+}
+
+        @media (max-width: 900px) {
+            .navbar { padding: 1rem; }
+            .nav-left { display: none; }
+            .hero-text { font-size: 2.2rem; }
+            .inline-pill { width: 100px; height: 45px; }
+            .feature-section { flex-direction: column; gap: 3rem; }
+        }
+
+        .site-footer {
+            background-color: #1a1a1a;
+            color: #fff;
+            padding: 4rem 3rem 2rem 3rem;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            margin-top: 4rem;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Top Row: Title & Subscription */
+        .footer-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+            padding-bottom: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-top-row h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .subscribe-form {
+            display: flex;
+            align-items: center;
+            border: 1px solid #555;
+            border-radius: 50px;
+            padding: 0.3rem 0.3rem 0.3rem 1.5rem;
+            width: 450px;
+            background: transparent;
+        }
+
+        .subscribe-form input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            outline: none;
+            flex-grow: 1;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .subscribe-form input::placeholder {
+            color: #888;
+        }
+
+        .subscribe-form button {
+            background: #fff;
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            padding: 0.8rem 2.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: opacity 0.3s;
+        }
+
+        .subscribe-form button:hover {
+            opacity: 0.9;
+        }
+
+        /* Middle Row: Brand Info & Links */
+        .footer-middle-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 4rem;
+        }
+
+        .footer-brand {
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .footer-logo {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            line-height: 1;
+        }
+
+        .footer-brand p {
+            font-size: 0.85rem;
+            color: #bbb;
+            line-height:1;
+        }
+
+        .footer-links-container {
+            display: flex;
+            flex: 2;
+            justify-content: space-around;
+            border-left: 1px solid #333;
+            padding-left: 2rem;
+        }
+
+        .footer-column h4 {
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-column ul li a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .footer-column ul li a:hover {
+            color: #fff;
+        }
+
+        .footer-marquee {
+            white-space: nowrap;
+            overflow: hidden;
+            margin: 1rem 0 3rem 0;
+            padding: 1rem 0;
+        }
+
+        .footer-marquee h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 4rem;
+            font-weight: 300;
+            color: #fff;
+            display: inline-flex;
+            animation: marquee 25s linear infinite;
+            will-change:transform;
+        }
+
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #333;
+            padding-top: 1.5rem;
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        .footer-currency {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .payment-icons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .payment-icons span {
+            background: #2a2a2a;
+            color: #fff;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        @media (max-width: 900px) {
+            .footer-top-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2rem;
+            }
+            .subscribe-form {
+                width: 100%;
+            }
+            .footer-middle-row {
+                flex-direction: column;
+            }
+            .footer-links-container {
+                border-left: none;
+                padding-left: 0;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 2rem;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="nav-left">
+            <a href="home.html">Home</a>
+            <a href="#">Catalog <span>&#711;</span></a>
+            <a href="contact.html">Contact</a>
+            <a href="about.html">About Us</a>
+            <a href="faq.html">FAQ</a>
+        </div>
+        <div class="logo">Magic</div>
+        <div class="nav-right">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        </div>
+    </header>
+
+    <!-- Top Hero Banner Image -->
+    <div class="top-banner">
+    <div class="banner-overlay">
+        <h1 class="banner-title">PURE BEAUTY, HONEST STORY</h1>
+    </div>
+</div>
+
+    <!-- Scroll Reveal Text Section -->
+    <section class="hero-text-section">
+        <h1 class="hero-text">
+            <span class="gsap-reveal-text">Transform Your Skin</span> 
+            <img class="inline-pill gsap-reveal-img" src="images/a1.jpeg"><br>
+            <span class="gsap-reveal-text">with</span>
+            
+            <span class="gsap-reveal-text">Science-Backed Skincare</span><br>
+            
+            <img class="inline-pill gsap-reveal-img" src="images/hover.webp" alt="Premium Bottle"> 
+            <span class="gsap-reveal-text">and</span>
+            <span class="gsap-reveal-text">Premium Beauty</span> 
+            <img class="inline-pill gsap-reveal-img" src="images/a3.jpeg" alt="Woman Glow"> 
+            <br>
+            
+            <span class="gsap-reveal-text">Products for a Flawless,</span><br>
+            <span class="gsap-reveal-text">Radiant Glow</span>
+        </h1>
+    </section>
+
+    <!-- Crafting Beauty Section -->
+    <section class="feature-section gsap-fade-up">
+        <div class="feature-image-wrapper">
+            <img src="images/a5.jpeg" alt="Woman with orange serum">
+        </div>
+        <div class="feature-content">
+            <h2>CRAFTING BEAUTY WITH<br>PASSION & PURITY</h2>
+            <p>Our journey began with a simple yet powerful mission: to create high-quality beauty products that nourish, enhance, and celebrate natural beauty.</p>
+            <p>Every formula we craft is infused with passion, precision, and the purest ingredients. We carefully source botanicals, vitamins, and skin-loving actives to ensure that every product not only looks good but feels good on your skin. Free from harmful chemicals and unnecessary additives, our beauty solutions are designed to be as gentle as they are effective.</p>
+            <p>We take pride in blending innovation with nature, delivering results-driven skincare and cosmetics that empower you to glow from the inside out.</p>
+            <div class="carousel-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skincare & Beauty Section -->
+    <section class="feature-section gsap-fade-up">
+        <div class="feature-image-wrapper">
+            <img src="images/a6.jpeg" alt="Woman applying serum with dropper">
+        </div>
+        <div class="feature-content">
+            <h2>SKINCARE & BEAUTY<br>ESSENTIALS FOR EVERY<br>MOMENT</h2>
+            <p>Experience the perfect blend of skincare and beauty essentials designed to enhance your natural radiance every moment of the day.</p>
+            <p>From nourishing moisturizers to glow-boosting serums and flawless makeup must-haves, our carefully curated collection ensures your skin stays hydrated, healthy, and luminous.</p>
+            <p>Elevate your beauty routine with products that pamper, protect, and perfect—because every moment deserves your best glow!</p>
+            <div class="carousel-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </section>
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">&#8593;</button>
+
+
+    <!-- GLOW-UP VIDEO SECTION (Muzhu screen background video) -->
+<!-- GLOW-UP VIDEO SECTION (Video Overlap Content Frame) -->
+<!-- GLOW-UP VIDEO SECTION -->
+<section class="video-hero-section">
+    
+    <!-- Video background component element -->
+    <video autoplay loop muted playsinline>
+        <source src="images/glowup.mp4" type="video/mp4">
+    </video>
+
+    <!-- Translucent Overlay Sheet -->
+    <div class="absolute inset-0 bg-black/20" style="position: absolute !important; z-index: 2 !important; width: 100%; height: 100%;"></div>
+
+    <!-- Front Content Typography Layer (Custom wrapper class system add seiyapattulathu) -->
+    <div class="absolute-text-box">
+        <h2 class="text-3xl md:text-5xl font-light tracking-widest uppercase dynamic-glow-title">
+            GLOW-UP ESSENTIALS
+        </h2>
+        <p class="mt-4 text-xs md:text-sm font-light leading-relaxed dynamic-glow-text">
+            From hydrating serums to glow-boosting treatments, these products are all you need for that effortless, lit-from-within look. Because glowing skin is always in.
+        </p>
+    </div>
+
+</section>
+
+<!-- STAGGERED OVERLAPPING IMAGE SECTION -->
+<!-- STAGGERED OVERLAPPING IMAGE SECTION -->
+<section class="priority-section block-layout-clear w-full py-20 px-6 md:px-16 lg:px-24 bg-white relative clear-both">
+    
+    <!-- TOP TEXT CONTENT BLOCK -->
+    <div class="max-w-3xl mb-16 space-y-4 relative z-10">
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-light tracking-wide text-neutral-800 leading-tight">
+            Your Beauty, <span class="text-neutral-400 font-serif italic font-light lowercase">Our Priority</span>
+        </h2>
+        <p class="text-xs md:text-sm text-neutral-500 font-light leading-relaxed max-w-2xl">
+            We believe that skincare is more than just a routine; it's a commitment to self-care and confidence. Our carefully curated beauty products are designed to nourish, protect, and enhance your natural glow. With high-quality ingredients and expert formulations, we prioritize your skin's health, radiance, and well-being. Because when you feel beautiful, you shine from within!
+        </p>
+    </div>
+
+    <!-- OVERLAPPING IMAGES CONTAINER GRID -->
+    <div class="images-overlap-wrapper relative w-full mx-auto max-w-6xl">
+        
+        <!-- Image 1: Left Side Background Image -->
+        <div class="overlap-card card-left">
+            <img src="images/luxe.webp" alt="left image" class="w-full h-full object-cover" />
+        </div>
+
+        <!-- Image 2: Center Foreground Image -->
+        <div class="overlap-card card-center">
+            <img src="images/faq.jpeg" alt="center image" class="w-full h-full object-cover" />
+        </div>
+
+        <!-- Image 3: Right Side Background Image -->
+        <div class="overlap-card card-right">
+            <img src="images/skincare-bg.webp" alt="right image" class="w-full h-full object-cover" />
+        </div>
+
+    </div>
+
+</section>
+
+<footer class="site-footer">
+        <div class="footer-inner">
+            
+            <!-- Top Row -->
+            <div class="footer-top-row">
+                <h3>GLOW IN YOUR INBOX</h3>
+                <form action="#" method="POST" class="subscribe-form">
+                    <input type="email" placeholder="Email" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+
+            <!-- Middle Row -->
+            <div class="footer-middle-row">
+                <div class="footer-brand">
+                    <div class="footer-logo">Magic</div>
+                    <p>"Your skin works hard every day, protecting you from the elements, adapting to different climates, and reflecting your inner health."</p>
+                </div>
+
+                <div class="footer-links-container">
+                    <div class="footer-column">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Search</a></li>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">About us</a></li>
+                            <li><a href="#">Popular Products</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="#">News</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Refund Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Legal Notice</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Follow us on</h4>
+                        <ul>
+                            <li><a href="#">Facebook &#8599;</a></li>
+                            <li><a href="#">X (Twitter) &#8599;</a></li>
+                            <li><a href="#">Instagram &#8599;</a></li>
+                            <li><a href="#">YouTube &#8599;</a></li>
+                            <li><a href="#">Pinterest &#8599;</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Marquee -->
+            <div class="footer-marquee">
+                <h2>Offers on Skincare! Special Offers on Skincare! Special Offers on Skincare!</h2>
+            </div>
+
+            <!-- Bottom Row -->
+            <div class="footer-bottom">
+                <div class="footer-currency">
+                    <span>&#127470;&#127473; $ USD / EN &#8964;</span>
+                </div>
+                <p>&copy; 2026 Maya Magic. Powered by Shopify</p>
+                <div class="payment-icons">
+                    <span class="pay-icon visa" style="background:#142787;">VISA</span>
+                    <span class="pay-icon mc" style="background:#ff5f00;">MC</span>
+                    <span class="pay-icon amex" style="background:#2671b9;">AMEX</span>
+                    <span class="pay-icon paypal" style="background:#003087;">PayPal</span>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- GSAP ANIMATION LOGIC -->
+    <script>
+        // Register ScrollTrigger Plugin
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 1. Text Color Reveal Animation (Scrub effect tied to scroll)
+        const revealTexts = document.querySelectorAll('.gsap-reveal-text');
+        
+        revealTexts.forEach(text => {
+            gsap.to(text, {
+                color: '#111', // Changes from #e0e0e0 to #111
+                scrollTrigger: {
+                    trigger: text,
+                    start: 'top 85%',   // Starts when element is 85% from top of viewport
+                    end: 'bottom 50%',  // Ends when element is 50% from top
+                    scrub: 1            // Smooth scrubbing effect
+                }
+            });
+        });
+
+        // 2. Inline Images Reveal (Fades in slightly as you scroll)
+        const revealImgs = document.querySelectorAll('.gsap-reveal-img');
+        
+        revealImgs.forEach(img => {
+            gsap.to(img, {
+                opacity: 1, 
+                scrollTrigger: {
+                    trigger: img,
+                    start: 'top 85%',
+                    end: 'bottom 50%',
+                    scrub: 1
+                }
+            });
+        });
+
+        // 3. Feature Sections Fade & Slide Up
+       const featureSections = gsap.utils.toArray('.feature-section');
+
+featureSections.forEach((section, i) => {
+    // Kadaisi section-ai thavirthu matra section-galai screen-il lock (pin) seigiroom
+    if (i < featureSections.length - 1) {
+        ScrollTrigger.create({
+            trigger: section,
+            pin: true,
+            pinSpacing: false, // Adutha card mella keri varadharkaga gap-ai thadukkum
+            start: "top top",
+            end: "bottom top",
+            invalidateOnRefresh: true
+        });
+    }
+});
+        // Back to Top Button Logic
+        const backToTopBtn = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+       // Video section hits the screen thonrumpodhu, dynamic actions check panna
+ScrollTrigger.create({
+    trigger: ".video-hero-section",
+    start: "top center",
+    onToggle: self => {
+        const dotsContainer = document.querySelector('.about-dots-container');
+        if (dotsContainer) {
+            if (self.isActive) {
+                dotsContainer.style.opacity = "0"; // Video mela varumpodhu right dots-ai maraikkum
+                dotsContainer.style.pointerEvents = "none";
+            } else {
+                dotsContainer.style.opacity = "1";
+                dotsContainer.style.pointerEvents = "auto";
+            }
+        }
+    }
+});
+
+    </script>
+</body>
+</html>
