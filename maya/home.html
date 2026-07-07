@@ -1073,29 +1073,28 @@ document.addEventListener("DOMContentLoaded", () => {
 <!-- Line 1073-il indha padi ID add seiyungal -->
 <section id="luxury-collection-section" class="w-full bg-white border-t border-neutral-200 grid grid-cols-1 md:grid-cols-2">
     <!-- Card 1: Luxe Layers -->
-    <div class="group relative flex flex-col items-center justify-center p-12 bg-white transition-all duration-500 hover:bg-[#C2CCD6]/60 border-b border-r border-neutral-200/80">
-        <!-- Collection Title (Normal state: Top, Hover state: Inside image) -->
+     <div id="custom-cursor-follower" class="fixed top-0 left-0 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg pointer-events-none z-[9999]" style="opacity: 0; transform: translate3d(0px, 0px, 0px);">
+  <span class="text-black font-bold text-lg">→</span>
+</div>
+   <div class="group relative flex flex-col items-center justify-center p-12 bg-white transition-all duration-500 hover:bg-[#B2BEB5]/60 border-r border-neutral-200/80">
         <h2 class="text-2xl tracking-wide font-medium mb-6 text-neutral-900 group-hover:opacity-0 transition-opacity duration-300">Luxe Layers</h2>
         
-        <!-- Image Frame Layer -->
         <div class="relative w-[400px] aspect-square rounded-[32px] overflow-hidden shadow-sm mb-4">
             <img src="images/luxe.webp" 
                  onmouseover="this.src='images/luxe.webp'" 
                  onmouseout="this.src='images/luxe.webp'"
                  alt="Luxe Layers" 
                  class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105">
-            
-            <!-- Hover Title Mask overlay inside image -->
+            <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                <span class="text-white text-2xl tracking-wider font-medium uppercase">Luxe Layers</span>
+            </div>
         </div>
         
-        <!-- Product Counter text -->
         <span class="text-xl text-neutral-800 tracking-wide mt-2">12 Products</span>
-
-        
     </div>
 
     <!-- Card 2: Cheeky Glow -->
-    <div class="group relative flex flex-col items-center justify-center p-12 bg-white transition-all duration-500 hover:bg-[#C2CCD6]/60 border-b border-neutral-200/80">
+    <div class="group relative flex flex-col items-center justify-center p-12 bg-white transition-all duration-500 hover:bg-[#C19A6B]/60 border-b border-neutral-200/80">
         <h2 class="text-2xl tracking-wide font-medium mb-6 text-neutral-900 group-hover:opacity-0 transition-opacity duration-300">Cheeky Glow</h2>
         
         <div class="relative w-[400px] aspect-square rounded-[32px] overflow-hidden shadow-sm mb-4">
@@ -1114,7 +1113,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
 
     <!-- Card 3: Naturally Radiant -->
-    <div class="group relative flex flex-col items-center justify-center p-12 bg-white transition-all duration-500 hover:bg-[#C2CCD6]/60 border-r border-neutral-200/80">
+    <div class="group relative flex flex-col items-center justify-center p-12 bg-white transition-all duration-500 hover:bg-[#C19A6B]/60 border-r border-neutral-200/80">
         <h2 class="text-2xl tracking-wide font-medium mb-6 text-neutral-900 group-hover:opacity-0 transition-opacity duration-300">Naturally Radiant</h2>
         
         <div class="relative w-[400px] aspect-square rounded-[32px] overflow-hidden shadow-sm mb-4">
@@ -1132,29 +1131,30 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
 
     <!-- Card 4: Hydration Haven -->
-    <div class="group relative flex flex-col items-center justify-center p-12 bg-white transition-all duration-500 hover:bg-[#C2CCD6]/60">
-        <h2 class="text-2xl tracking-wide font-medium mb-6 text-neutral-900 group-hover:opacity-0 transition-opacity duration-300">Hydration Haven</h2>
+    <div class="group relative flex flex-col items-center justify-center p-12 bg-white transition-all duration-500 hover:bg-[#C8B6E2]/60 border-r border-neutral-200/80">
+        <h2 class="text-2xl tracking-wide font-medium mb-6 text-neutral-900 group-hover:opacity-0 transition-opacity duration-300">Hydration Heaven</h2>
         
         <div class="relative w-[400px] aspect-square rounded-[32px] overflow-hidden shadow-sm mb-4">
             <img src="images/hover.webp" 
-                 onmouseover="this.src='images/hydration.webp'" 
-                 onmouseout="this.src='images/hydration.webp'"
-                 alt="Hydration Haven" 
+                 onmouseover="this.src='images/hover.webp'" 
+                 onmouseout="this.src='images/hover.webp'"
+                 alt="Hydration Heaven" 
                  class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105">
+            <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                <span class="text-white text-2xl tracking-wider font-medium uppercase">Hydration Heaven</span>
+            </div>
         </div>
         
         <span class="text-xl text-neutral-800 tracking-wide mt-2">12 Products</span>
-
     </div>
-
     </div>
     <style>
   #custom-cursor-follower {
-    /* Circle-oda center exact pointer-ukku match aaga direct margins */
+    /* Circle center configuration alignment math matching */
     margin-left: -24px;
     margin-top: -24px;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
+    will-change: transform, opacity;
+    transition: opacity 0.2s ease-out;
   }
 </style>
 
@@ -1162,27 +1162,53 @@ document.addEventListener("DOMContentLoaded", () => {
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const follower = document.querySelector("#custom-cursor-follower");
-  const luxurySection = document.querySelector("#luxury-collection-section");
+  const luxurySection = document.querySelector("#luxury-collection-section") || document.querySelector("section.grid-cols-1");
 
   if (follower && luxurySection) {
-    // 1. Mouse andha specific luxury section-kul ulla varumpodhu mattum cursor opacity-1 aagum
-    luxurySection.addEventListener("mouseenter", () => {
-      gsap.to(follower, { opacity: 1, duration: 0.2 });
+    let mouseX = 0, mouseY = 0;
+    let currentX = 0, currentY = 0;
+    let isInside = false;
+
+    // 1. Mouse coordinates real-time capture updating loop
+    window.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      // Check boundary bounds matrix logic for Luxury Collection Section range
+      const rect = luxurySection.getBoundingClientRect();
+      if (mouseX >= rect.left && mouseX <= rect.right && mouseY >= rect.top && mouseY <= rect.bottom) {
+        if (!isInside) {
+          isInside = true;
+          follower.style.opacity = "1";
+        }
+      } else {
+        if (isInside) {
+          isInside = false;
+          follower.style.opacity = "0";
+        }
+      }
     });
 
-    // 2. Mouse andha section-kul move aagumpodhu mattum pointer-ai follow seiyum
-    luxurySection.addEventListener("mousemove", (e) => {
-      gsap.to(follower, {
-        x: e.clientX,
-        y: e.clientY,
-        duration: 0.1,
-        ease: "power1.out"
-      });
-    });
+    // 2. High-performance frame ticking system interpolation matrix handler
+    function render() {
+      if (isInside) {
+        // Linear interpolation formula for 0.1 smooth elastic follower motion ease delay
+        currentX += (mouseX - currentX) * 0.15;
+        currentY += (mouseY - currentY) * 0.15;
+        
+        // Direct absolute hardware transform rendering velocity mapping 
+        follower.style.transform = `translate3d(${currentX}px, ${currentY}px, 0px)`;
+      }
+      requestAnimationFrame(render);
+    }
+    
+    // Core animation tick loop activation triggering
+    requestAnimationFrame(render);
 
-    // 3. Mouse andha section-ai vittu veliyye (Hydration Heroes alladhu mela) pogumpodhu instantly maraiyum
-    luxurySection.addEventListener("mouseleave", () => {
-      gsap.to(follower, { opacity: 0, duration: 0.2 });
+    // Mouse page boundary exit check tracker
+    document.addEventListener("mouseleave", () => {
+      isInside = false;
+      follower.style.opacity = "0";
     });
   }
 });
@@ -1419,45 +1445,55 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
 
     <!-- Main Two-Column Layout Grid -->
-    <div class="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        
-        <!-- LEFT COLUMN: Product Image Presentation -->
-        <div class="w-full flex flex-col">
-            <!-- Large Main Image Preview with Navigation Controls -->
-            <div class="w-full aspect-square max-h-[520px] bg-[#E2DFDA] rounded-[32px] relative flex items-center justify-center p-10 group">
-                <!-- Left Slide Arrow -->
-                <button class="absolute left-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center text-sm hover:bg-neutral-800 transition-colors z-10">
-                    ←
-                </button>
-                
-                <!-- Main Core Product Perfume Image -->
-                <img src="images/perfume.webp" class="max-h-full object-contain mix-blend-multiply" alt="Divine Charm Perfume Center View">
-                
-                <!-- Right Slide Arrow -->
-                <button class="absolute right-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center text-sm hover:bg-neutral-800 transition-colors z-10">
-                    →
-                </button>
-            </div>
+    <!-- Main Two Column Layout Grid -->
+      <div class="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
 
-            <!-- Horizontal Thumbnail Dynamic Carousel -->
-            <div class="flex gap-3 mt-4 overflow-x-auto py-1 w-full">
-                <!-- Active Thumbnail -->
-                <div class="w-16 h-16 rounded-xl border-2 border-black bg-[#E2DFDA] p-2 flex items-center justify-center cursor-pointer shrink-0">
-                    <img src="images/perfume.webp" class="max-h-full object-contain mix-blend-multiply">
-                </div>
-                <!-- Idle Thumbnails -->
-                <div class="w-16 h-16 rounded-xl border border-neutral-200 bg-[#E2DFDA] p-2 flex items-center justify-center cursor-pointer shrink-0 opacity-60 hover:opacity-100 transition-opacity">
-                    <img src="images/perfume1.webp" class="max-h-full object-contain mix-blend-multiply">
-                </div>
-                <div class="w-16 h-16 rounded-xl border border-neutral-200 bg-[#E2DFDA] p-2 flex items-center justify-center cursor-pointer shrink-0 opacity-60 hover:opacity-100 transition-opacity">
-                    <img src="images/perfume2.webp" class="max-h-full object-contain mix-blend-multiply">
-                </div>
-                <div class="w-16 h-16 rounded-xl border border-neutral-200 bg-[#E2DFDA] p-2 flex items-center justify-center cursor-pointer shrink-0 opacity-60 hover:opacity-100 transition-opacity">
-                    <img src="images/perfume3.webp" class="max-h-full object-contain mix-blend-multiply">
-                </div>
-            </div>
-        </div>
+          <!-- LEFT COLUMN: Product Image Presentation -->
+          <div class="w-full flex flex-col relative">
+              <!-- Large Main Image Preview with Navigation Controls -->
+              <div class="w-full aspect-square max-h-[520px] bg-[#E2DFDA] rounded-[32px] relative flex items-center justify-center p-10 group">
+                  
+                  <!-- Left Slide Arrow -->
+                  <button class="absolute left-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center text-sm hover:bg-neutral-800 transition-colors z-10">
+                      ←
+                  </button>
 
+                  <!-- Main Core Product Perfume Image -->
+                  <img id="main-product-image" src="images/perfume.webp" class="max-h-full object-contain mix-blend-multiply transition-opacity duration-200" alt="Divine Charm Perfume Center View">
+
+                  <!-- Right Slide Arrow -->
+                  <button class="absolute right-4 w-10 h-10 rounded-full bg-black text-white flex items-center justify-center text-sm hover:bg-neutral-800 transition-colors z-10">
+                      →
+                  </button>
+
+                  <!-- 4-Box Thumbnails INSIDE the Big Image Card -->
+                  <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-3 bg-white/80 backdrop-blur-md p-2 rounded-[20px] shadow-lg z-30 min-w-[240px] justify-center">
+                      
+                      <!-- Thumbnail 1 -->
+                      <div class="thumb-box w-12 h-12 bg-white rounded-[12px] p-1 border-2 border-black cursor-pointer overflow-hidden flex items-center justify-center transition-all">
+                          <img src="images/perfume.webp" class="w-full h-full object-contain" onclick="changeProductImage(this)" />
+                      </div>
+
+                      <!-- Thumbnail 2 -->
+                      <div class="thumb-box w-12 h-12 bg-white rounded-[12px] p-1 border border-neutral-200 cursor-pointer overflow-hidden flex items-center justify-center transition-all">
+                          <img src="images/perfume1.webp" class="w-full h-full object-contain" onclick="changeProductImage(this)" />
+                      </div>
+
+                      <!-- Thumbnail 3 -->
+                      <div class="thumb-box w-12 h-12 bg-white rounded-[12px] p-1 border border-neutral-200 cursor-pointer overflow-hidden flex items-center justify-center transition-all">
+                          <img src="images/perfume2.webp" class="w-full h-full object-contain" onclick="changeProductImage(this)" />
+                      </div>
+
+                      <!-- Thumbnail 4 -->
+                      <div class="thumb-box w-12 h-12 bg-white rounded-[12px] p-1 border border-neutral-200 cursor-pointer overflow-hidden flex items-center justify-center transition-all">
+                          <img src="images/perfume3.webp" class="w-full h-full object-contain" onclick="changeProductImage(this)" />
+                      </div>
+
+                  </div>
+              </div>
+          </div>
+
+          <!-- RIGHT COLUMN Area thuvakkam (Ungal right column code itharku kila thodarndhu perfectly set aagividum) -->
         <!-- RIGHT COLUMN: E-commerce Product Options & Buy Actions -->
         <div class="w-full flex flex-col pt-2">
             <h2 class="text-3xl md:text-4xl font-light tracking-wide text-neutral-900">Divine Charm Perfume</h2>
@@ -1529,7 +1565,8 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
 
             <!-- Right: Self-Care Sale Card (Slightly delayed smooth reveal into place) -->
-            <div class="bg-[#ECE5F4] rounded-[32px] p-8 md:p-14 flex flex-col justify-center items-start space-y-5 min-h-[350px] md:min-h-[450px] transform translate-y-12 opacity-0 transition-all duration-[1200ms] ease-out scroll-reveal-card">
+            <div class="bg-[#ECE5F4] rounded-[32px] p-8 md:p-14 flex flex-col justify-center items-start space-y-5 min-h-[350px] md:min-h-[450px] transform translate-y-12 opacity-0 transition-all duration-[1200ms] ease-out scroll-reveal-card"
+            style="position:sticky; top:20px;">
                 <span class="px-3 py-1 bg-white/60 text-[10px] uppercase tracking-widest font-semibold rounded-full text-neutral-600">
                     Self Care
                 </span>
@@ -1548,7 +1585,8 @@ document.addEventListener("DOMContentLoaded", () => {
         <!-- ROW 2 (Matches image_47a5e0.png) -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start pt-6">
             <!-- Left: Nature's Touch Card (Rises up first to break grid symmetry) -->
-            <div class="bg-[#B1A99C] rounded-[32px] p-8 md:p-14 flex flex-col justify-center items-start space-y-5 min-h-[320px] md:min-h-[420px] transform translate-y-16 opacity-0 transition-all duration-[1200ms] ease-out scroll-reveal-card">
+            <div class="bg-[#B1A99C] rounded-[32px] p-8 md:p-14 flex flex-col justify-center items-start space-y-5 min-h-[320px] md:min-h-[420px] transform translate-y-16 opacity-0 transition-all duration-[1200ms] ease-out scroll-reveal-card"
+            style="position:sticky; top:20px;">
                 <span class="px-3 py-1 bg-black/10 text-[10px] uppercase tracking-widest font-semibold rounded-full text-neutral-800">
                     Glow Aura
                 </span>
@@ -1562,6 +1600,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     Shop Now <span>→</span>
                 </button>
             </div>
+            
 
             <!-- Right: Model Image Box (Follows up beautifully) -->
             <div class="w-full aspect-[4/4.2] bg-[#E8E4DF] rounded-[32px] overflow-hidden transform translate-y-24 opacity-0 transition-all duration-[1400ms] ease-out scroll-reveal-card">
@@ -2043,7 +2082,27 @@ videoTimeline.to("#bento-video-left", {
     ease: "power2.out"
 }, "-=1.0");
 </script>
+<script>
+function changeProductImage(thumbnailElement) {
+  const mainImage = document.getElementById("main-product-image");
+  if (mainImage && thumbnailElement) {
+    mainImage.style.opacity = "0.3";
+    setTimeout(() => {
+      mainImage.src = thumbnailElement.src;
+      mainImage.style.opacity = "1";
+    }, 150);
 
-    <script src="script.js"></script>
+    document.querySelectorAll(".thumb-box").forEach(box => {
+      box.classList.remove("border-black", "border-2");
+      box.classList.add("border", "border-neutral-200");
+    });
+
+    const parentBox = thumbnailElement.parentElement;
+    parentBox.classList.remove("border-neutral-200", "border");
+    parentBox.classList.add("border-black", "border-2");
+  }
+}
+</script>
+    
 </body>
 </html>
